@@ -1,0 +1,28 @@
+---
+logging:
+  level:
+    root: INFO
+
+keycloak:
+  auth-server-url: http://192.168.82.48:8180/auth
+  ssl-required: external
+  realm: test-realm
+  resource: test-service
+  public-client: false
+  principal-attribute: preferred_username
+  bearer-only: true
+
+security:
+  oauth2:
+    # Use for service to service communication (Fiegn client / Rest Template)
+    client:
+      access-token-uri: ${keycloak.auth-server-url}/realms/${keycloak.realm}/protocol/openid-connect/token
+      client-id: test-service
+      client-secret: 9db89682-be85-4b61-927d-6b6291545a17
+      grant-type: client_credentials
+      scope: openid server
+      user-authorization-uri: ${keycloak.auth-server-url}/realms/${keycloak.realm}/protocol/openid-connect/auth
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
